@@ -8,7 +8,8 @@ function startSetInfo() {
   } else {
     let date = new Date(localStorage.getItem("date"));
     if (currentDate.getDate() === date.getDate()) {
-      setFilms(JSON.parse(localStorage.getItem("info")), selectDay);
+      let info = JSON.parse(localStorage.getItem("info"));
+      setFilms(info, selectDay);
     } else {
       request((info) => {
         localStorage.setItem("info", info);
