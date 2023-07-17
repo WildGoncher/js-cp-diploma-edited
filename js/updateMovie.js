@@ -1,21 +1,23 @@
-const startSetInfo = () => {
-  const info = localStorage.getItem("info");
-  const date = new Date(localStorage.getItem("date"));
-  if (!info) {
+function startSetInfo() {
+  if (!localStorage.length) {
     request((info) => {
       localStorage.setItem("info", info);
-      localStorage.setItem("date", Date.now());
+      localStorage.setItem("date", new Date());
       setFilms(JSON.parse(info), selectDay);
     }, "event=update");
-  } else if (currentDate.getDate() === date.getDate()) {
-    setFilms(JSON.parse(info), selectDay);
   } else {
-    request((info) => {
-      localStorage.setItem("info", info);
-      localStorage.setItem("date", Date.now());
-    }, "event=update");
+    let date = new Date(localStorage.getItem("date"));
+    if (currentDate.getDate() === date.getDate()) {
+      setFilms(JSON.parse(localStorage.getItem("info")), selectDay);
+    } else {
+      request((info) => {
+        localStorage.setItem("info", info);
+        localStorage.setItem("date", new Date());
+        setFilms(JSON.parse(info), selectDay);
+      }, "event=update");
+    }
   }
-};
+}
 
 function setFilms(info, date) {
   let moviesSection = Array.from(document.getElementsByClassName("movie"));
